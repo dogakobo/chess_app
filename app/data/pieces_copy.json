@@ -1,0 +1,194 @@
+{
+  "a2": {
+    "image": "/pieces-images/pawn-player1.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 1
+  },
+  "b2": {
+    "image": "/pieces-images/pawn-player1.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 1
+  },
+  "c2": {
+    "image": "/pieces-images/pawn-player1.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 1
+  },
+  "d2": {
+    "image": "/pieces-images/pawn-player1.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 1
+  },
+  "e2": {
+    "image": "/pieces-images/pawn-player1.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 1
+  },
+  "f2": {
+    "image": "/pieces-images/pawn-player1.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 1
+  },
+  "g2": {
+    "image": "/pieces-images/pawn-player1.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 1
+  },
+  "h2": {
+    "image": "/pieces-images/pawn-player1.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 1
+  },
+  "a1": {
+    "image": "/pieces-images/rook-player1.png",
+    "initialMove": false,
+    "type": "rook",
+    "player": 1
+  },
+  "b1": {
+    "image": "/pieces-images/knight-player1.png",
+    "initialMove": false,
+    "type": "knight",
+    "player": 1
+  },
+  "c1": {
+    "image": "/pieces-images/bishop-player1.png",
+    "initialMove": false,
+    "type": "bishop",
+    "player": 1
+  },
+  "e5": {
+    "image": "/pieces-images/queen-player1.png",
+    "initialMove": false,
+    "type": "queen",
+    "player": 1
+  },
+  "e1": {
+    "image": "/pieces-images/king-player1.png",
+    "initialMove": false,
+    "type": "king",
+    "player": 1
+  },
+  "f1": {
+    "image": "/pieces-images/bishop-player1.png",
+    "initialMove": false,
+    "type": "bishop",
+    "player": 1
+  },
+  "g1": {
+    "image": "/pieces-images/knight-player1.png",
+    "initialMove": false,
+    "type": "knight",
+    "player": 1
+  },
+  "h1": {
+    "image": "/pieces-images/rook-player1.png",
+    "initialMove": false,
+    "type": "rook",
+    "player": 1
+  },
+  "a7": {
+    "image": "/pieces-images/pawn-player2.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 2
+  },
+  "b7": {
+    "image": "/pieces-images/pawn-player2.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 2
+  },
+  "c7": {
+    "image": "/pieces-images/pawn-player2.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 2
+  },
+  "a3": {
+    "image": "/pieces-images/pawn-player2.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 2
+  },
+  "f3": {
+    "image": "/pieces-images/pawn-player2.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 2
+  },
+  "f7": {
+    "image": "/pieces-images/pawn-player2.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 2
+  },
+  "g7": {
+    "image": "/pieces-images/pawn-player2.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 2
+  },
+  "h7": {
+    "image": "/pieces-images/pawn-player2.png",
+    "initialMove": false,
+    "type": "pawn",
+    "player": 2
+  },
+  "h8": {
+    "image": "/pieces-images/rook-player2.png",
+    "initialMove": false,
+    "type": "rook",
+    "player": 2
+  },
+  "g8": {
+    "image": "/pieces-images/knight-player2.png",
+    "initialMove": false,
+    "type": "knight",
+    "player": 2
+  },
+  "f8": {
+    "image": "/pieces-images/bishop-player2.png",
+    "initialMove": false,
+    "type": "bishop",
+    "player": 2
+  },
+  "d8": {
+    "image": "/pieces-images/queen-player2.png",
+    "initialMove": false,
+    "type": "queen",
+    "player": 2
+  },
+  "e8": {
+    "image": "/pieces-images/king-player2.png",
+    "initialMove": false,
+    "type": "king",
+    "player": 2
+  },
+  "c8": {
+    "image": "/pieces-images/bishop-player2.png",
+    "initialMove": false,
+    "type": "bishop",
+    "player": 2
+  },
+  "b8": {
+    "image": "/pieces-images/knight-player2.png",
+    "initialMove": false,
+    "type": "knight",
+    "player": 2
+  },
+  "a8": {
+    "image": "/pieces-images/rook-player2.png",
+    "initialMove": false,
+    "type": "rook",
+    "player": 2
+  }
+}

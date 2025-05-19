@@ -1,0 +1,198 @@
+{
+  "player1": {
+    "pawn1": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "a2"
+    },
+    "pawn2": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "b2"
+    },
+    "pawn3": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "c2"
+    },
+    "pawn4": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "d2"
+    },
+    "pawn5": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "e2"
+    },
+    "pawn6": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "f2"
+    },
+    "pawn7": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "g2"
+    },
+    "pawn8": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "h2"
+    },
+    "rook1": {
+      "image": "",
+      "movesRules": [],
+      "type": "rook",
+      "position": "a1"
+    },
+    "knight1": {
+      "image": "",
+      "movesRules": [],
+      "type": "knight",
+      "position": "b1"
+    },
+    "beshop1": {
+      "image": "",
+      "movesRules": [],
+      "type": "beshop",
+      "position": "c1"
+    },
+    "queen": {
+      "image": "",
+      "movesRules": [],
+      "type": "queen",
+      "position": "d1"
+    },
+    "king": {
+      "image": "",
+      "movesRules": [],
+      "type": "king",
+      "position": "e1"
+    },
+    "beshop2": {
+      "image": "",
+      "movesRules": [],
+      "type": "beshop",
+      "position": "f1"
+    },
+    "knight2": {
+      "image": "",
+      "movesRules": [],
+      "type": "knight",
+      "position": "g1"
+    },
+    "rook2": {
+      "image": "",
+      "movesRules": [],
+      "type": "rook",
+      "position": "h1"
+    }
+  },
+  "player2": {
+    "pawn1": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "a7"
+    },
+    "pawn2": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "b7"
+    },
+    "pawn3": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "c7"
+    },
+    "pawn4": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "d7"
+    },
+    "pawn5": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "e7"
+    },
+    "pawn6": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "f7"
+    },
+    "pawn7": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "g7"
+    },
+    "pawn8": {
+      "image": "",
+      "movesRules": [],
+      "type": "pawn",
+      "position": "h7"
+    },
+    "rook1": {
+      "image": "",
+      "movesRules": [],
+      "type": "rook",
+      "position": "h8"
+    },
+    "knight1": {
+      "image": "",
+      "movesRules": [],
+      "type": "knight",
+      "position": "g8"
+    },
+    "beshop1": {
+      "image": "",
+      "movesRules": [],
+      "type": "beshop",
+      "position": "f8"
+    },
+    "queen": {
+      "image": "",
+      "movesRules": [],
+      "type": "queen",
+      "position": "d8"
+    },
+    "king": {
+      "image": "",
+      "movesRules": [],
+      "type": "king",
+      "position": "e8"
+    },
+    "beshop2": {
+      "image": "",
+      "movesRules": [],
+      "type": "beshop",
+      "position": "c8"
+    },
+    "knight2": {
+      "image": "",
+      "movesRules": [],
+      "type": "knight",
+      "position": "b8"
+    },
+    "rook2": {
+      "image": "",
+      "movesRules": [],
+      "type": "rook",
+      "position": "a8"
+    }
+  }
+}
