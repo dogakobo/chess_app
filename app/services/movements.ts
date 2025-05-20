@@ -12,101 +12,65 @@ export const checkTargetPlaces = (gameBoardData: any, player: number) => {
   return places
 }
 
-export const verifyChecks = (gameBoardData: any, player: number, index?: number) => {
+export const isThereCheck = (gameBoardData: any, value: any, originalPiece: any) => {
   let places: any = []
-  console.log(mapGemeData(gameBoardData).find((p: any) => p.value.position === 'e8'), 'map');
-  mapGemeData(gameBoardData).filter((value: any) => value?.value?.piece && value?.value?.piece?.player != player).forEach((value: any) => {
+  // console.log(mapGemeData(gameBoardData).find((p: any) => p.value.position === 'e8'), 'map');
+  const new2 = gameBoardData
+  const pieceCopy = originalPiece.piece
+  const valuePieceCopy = value?.piece
+  new2[originalPiece.y][originalPiece.x].piece = undefined
+  new2[value.y][value.x].piece = pieceCopy
+  // new2[originalPiece.y][originalPiece.x].piece = undefined
+  // const new4 = mapGemeData(new2).filter((place: any) => place.position != originalPiece.position)
+  // console.log(new2.find((a: any) => a.value.position === value.position, 'value'))
+  // const movement = new2.findIndex((a: any) => a.value.position == value.position, 'value')
+  // console.log(value)
+  // console.log(new2[movement])
+  // new2[movement].piece = value.piece
+  // console.log(new2[movement])
+  
+  console.log(new2)
+  // new2[value.y][value.x].value.piece = value.piece
+  mapGemeData(new2).filter((value: any) => value?.value?.piece && value?.value?.piece?.player != pieceCopy.player).forEach((value: any) => {
     // if (value?.value?.piece?.type && value?.value?.piece?.player == player) {
     // }
-    console.log(value.value, index);
-    places.push(...checkPossibleMoves(value.value, gameBoardData, null, true))
+    console.log(value.value);
+
+    // if (value.value.position != originalPiece.position)
+    places.push(...checkPossibleMoves(value.value, new2, null, true))
   })
   let check
-  console.log(places.find((p: any) => p.position === 'd7'), 'places find')
-  console.log(places, 'places')
   const uniqueArray = Array.from(new Set(places.map((a: any) => a.position)))
   .map(id => {
     return places.find((a: any) => a.position === id)
   })
-  console.log(uniqueArray, 'not repited', index)
+  console.log(places);
   uniqueArray.forEach((place: any) => {
     if (place.piece?.type === 'king') {
-      if (place.piece?.player == player) {
+      if (place.piece?.player === pieceCopy.player) {
         console.log(place, 'check');
         check = place
       }
     }
   })
+  new2[originalPiece.y][originalPiece.x].piece = pieceCopy
+  new2[value.y][value.x].piece = valuePieceCopy
   console.log(check, 'check');
   return check
 }
 
-export const verifyChecks3 = (array: any, value: any, originalPiece: any) => {
-  let places: any = array
-  let check
-  console.log(originalPiece, 'orirignal');
-  console.log(value, 'orirignal');
-  const uniqueArray = Array.from(new Set(places.map((a: any) => a.position)))
-  .map(id => {
-    return places.find((a: any) => a.position === id)
-  })
-  console.log(uniqueArray);
-  const new2 = uniqueArray.filter((place: any) => place.position !== originalPiece.position)
-  const index = new2.findIndex((a: any) => a.position === value.position)
-  console.log(new2.length)
-  console.log(new2)
-  console.log(index)
-  console.log(new2[index])
-  new2[index] = value
-  new2.forEach((place: any) => {
-    // if (originalPiece.position !== place.position)
-    if (place.piece?.type === 'king' ) {
-      // if (place.piece?.player != originalPiece.piece.player) {
-      console.log('pega');
-      // if (place.position === value.position) {
-        // if (place.piece?.player == value.piece.player) {
-          console.log(place, 'check');
-          check = place
-        // }
-      // }
-    }
-  })
-  // console.log(check, 'check');
-  return check
-}
-
 export const verifyChecks2 = (gameBoardData: any, moves: any, piece: any) => {
-  let places2: any = []
   let places: any = []
-  // console.log(moves);
-  // console.log(moves.length);
-  mapGemeData(gameBoardData).filter((value: any) => value?.value?.piece && value?.value?.piece?.player != piece.piece.player).forEach((value: any) => {
-    // if (value?.value?.piece?.type && value?.value?.piece?.player == player) {
-    // }
-    places2.push(...checkPossibleMoves(value.value, gameBoardData, null, true))
-  })
+
+  const gameBoardDataCopy = Array.from(new Array([...gameBoardData])[0])
   moves.forEach((value: any, index: number) => {
-    const gameBoardDataCopy = Array.from(new Array([...gameBoardData])[0])
-    const valuePieceCopy = value?.piece
-    const pieceCopy = piece.piece
-    // pieceCopy.copy = true
-    // console.log(piece);
-    // console.log(gameBoardDataCopy[piece.y][piece.x], 'piece not removed');
-    // console.log(gameBoardDataCopy[value.y][value.x], 'value');
-    // gameBoardDataCopy[piece.y][piece.x].piece = undefined
-    // gameBoardDataCopy[value.y][value.x].piece = pieceCopy
-    // console.log(gameBoardDataCopy[piece.y][piece.x], 'piece removed');
-    // const asd = verifyChecks(gameBoardDataCopy, pieceCopy.player, index)
-    const asd = verifyChecks3(places2, value, piece)
-    // const asd = verifyChecks3(places2, pieceCopy.player, index)
+    const asd = isThereCheck(gameBoardDataCopy, value, piece)
     console.log(asd, 'asd');
     if (!asd) {
-      // console.log(value);
+
       places.push(value)
     }
-    // pieceCopy.copy = false
-    // gameBoardDataCopy[piece.y][piece.x].piece = pieceCopy
-    // gameBoardDataCopy[value.y][value.x].piece = valuePieceCopy
+
   })
   return places
 }
@@ -139,7 +103,7 @@ export const checkPossibleMoves = (piece: any, gameBoardData: any, checks: any =
     moves = verifyChecks2(gameBoardData, moves, piece)
   }
   
-  // let movesCopy: any = []
+  let movesCopy: any = []
   // if (!secondary) {
   //   const targetPlaces = checkTargetPlaces(gameBoardData, piece.piece.player)
   //   moves.map((value: any) => {
@@ -179,6 +143,7 @@ const kingRules = (piece: any, gameBoardData: any, checks: any) => {
       if (pieceToMove?.position) {
         if (pieceToMove?.piece?.player != piece?.piece.player) {
           pieceToMove.originalPiece = piece
+          pieceToMove.initialMove = true
           possibleMovements.push(pieceToMove)
         }
       
@@ -187,23 +152,26 @@ const kingRules = (piece: any, gameBoardData: any, checks: any) => {
       
     }
   })
-  console.log(possibleMovements)
-/* initialMovments.map((movesValue: any) => {
-  const valueObject: any = new Object(movesValue)
-  let yy = sum(piece.y, valueObject.y ?? 0)
-  let xx = sum(piece.x, valueObject.x ?? 0)
-  try {
-    const pieceToMove = gameBoardData[yy][xx]
-    if (pieceToMove?.position) {
-      if (pieceToMove?.piece?.player != piece?.piece.player) {
-        possibleMovements.push(pieceToMove)
+  if (!piece.initialMove)
+  initialMovments.map((movesValue: any) => {
+    const valueObject: any = new Object(movesValue)
+    let yy = sum(piece.y, valueObject.y ?? 0)
+    let xx = sum(piece.x, valueObject.x ?? 0)
+    console.log(xx);
+    console.log(yy);
+    try {
+      const pieceToMove = gameBoardData[yy][xx]
+      if (pieceToMove?.position) {
+        if (pieceToMove?.piece?.player != piece?.piece.player) {
+          if (xx == 6) pieceToMove.rightRook = gameBoardData[piece.y][piece.x + 1]
+          possibleMovements.push(pieceToMove)
+        }
+      
       }
-    
+    } catch (error) {
+      
     }
-  } catch (error) {
-    
-  }
-}) */
+  }) 
   return possibleMovements
 }
 

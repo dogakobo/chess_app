@@ -52,20 +52,57 @@ export default function Game() {
   }
 
   const verifyGameChecks = (turn: any) => {
-    const check = verifyChecks(gameBoardData, turn)
-    console.log(check)
-    if (check) {
-      setCheck(check)
-    }
+    // const check = verifyChecks(gameBoardData, turn)
+    // console.log(check)
+    // if (check) {
+    //   setCheck(check)
+    // }
   }
 
   const checkMovement = (piece: any) => {
-    if (possibleMoves.find((movement: any) => movement.position === piece.position)) {
+    const move = possibleMoves.find((movement: any) => movement.position === piece.position)
+    if (move) {
       movePiece(piece)
+      if (move.rightRook) {
+        const gameBoardDataCopy = Array.from(new Array([...gameBoardData])[0])
+        console.log(move.rightRook);
+        selectSquare(move.rightRook)
+        // const from = gameBoardDataCopy[piece.y][piece.x + 1]
+        const to = gameBoardDataCopy[piece.y][piece.x - 1]
+        // console.log(from);
+        movePiece(to)
+        // console.log(piece);
+        // const rook = gameBoardDataCopy[piece.y][piece.x + 1]
+        // console.log(gameBoardDataCopy[piece.y][piece.x - 1]);
+        // console.log(rook);
+        // gameBoardDataCopy[piece.y][piece.x + 1].piece = undefined
+        // gameBoardDataCopy[piece.y][piece.x - 1].piece = rook.piece
+        // updateGameBoardData(gameBoardDataCopy)
+      }
     } else {
       cancelMovement()
       selectSquare(piece)
     }
+  }
+
+  const moveExternalPiece = (from: any, to: any) => {
+    const AddedNewPiceToGameBoardData = gameBoardData.map((value: any) => value.map((square2: any) => {
+      let piece = square2
+      if (square2.position === to.position) {
+        piece.piece = selectPiece.piece
+        // piece.piece.initialMove = true
+      }
+      return piece
+    }))
+    const deletePieceToGameBoardData = AddedNewPiceToGameBoardData.map((value: any) => value.map((square2: any) => {
+      let piece = square2
+      if (square2.position === from.position) {
+        square2.piece = undefined
+      }
+      return piece
+    }))
+    updateGameBoardData(deletePieceToGameBoardData)
+    setCheck({})
   }
 
   const movePiece = (square: any) => {
@@ -73,6 +110,7 @@ export default function Game() {
       let piece = square2
       if (square2.position === square.position) {
         piece.piece = selectPiece.piece
+        if (piece.piece?.initialMove)
         piece.piece.initialMove = true
       }
       return piece

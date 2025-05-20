@@ -65,7 +65,7 @@
     "type": "bishop",
     "player": 1
   },
-  "e5": {
+  "d1": {
     "image": "/pieces-images/queen-player1.png",
     "initialMove": false,
     "type": "queen",
@@ -77,13 +77,13 @@
     "type": "king",
     "player": 1
   },
-  "f1": {
+  "f5": {
     "image": "/pieces-images/bishop-player1.png",
     "initialMove": false,
     "type": "bishop",
     "player": 1
   },
-  "g1": {
+  "g4": {
     "image": "/pieces-images/knight-player1.png",
     "initialMove": false,
     "type": "knight",
@@ -113,13 +113,13 @@
     "type": "pawn",
     "player": 2
   },
-  "a3": {
+  "d7": {
     "image": "/pieces-images/pawn-player2.png",
     "initialMove": false,
     "type": "pawn",
     "player": 2
   },
-  "f3": {
+  "e7": {
     "image": "/pieces-images/pawn-player2.png",
     "initialMove": false,
     "type": "pawn",
