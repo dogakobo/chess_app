@@ -77,13 +77,13 @@
     "type": "king",
     "player": 1
   },
-  "f5": {
+  "f1": {
     "image": "/pieces-images/bishop-player1.png",
     "initialMove": false,
     "type": "bishop",
     "player": 1
   },
-  "g4": {
+  "g1": {
     "image": "/pieces-images/knight-player1.png",
     "initialMove": false,
     "type": "knight",

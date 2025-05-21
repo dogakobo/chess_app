@@ -1,50 +1,97 @@
 import { mapGemeData } from '../utils/utils';
 import moverules from '../data/moverules.json';
 
-export const checkTargetPlaces = (gameBoardData: any, player: number) => {
-  let places: any = []
-  mapGemeData(gameBoardData).filter((value: any) => value?.value?.piece?.type).map((value: any) => {
-    if (value?.value?.piece) {
-      if (value.value.piece.player !== player)
-      places.push(...checkPossibleMoves(value.value, gameBoardData, null, true))
-    }
+export const findCheck = (gameBoardData: any, player: number) => {
+  let check
+  mapGemeData(gameBoardData).filter((value: any) => value?.value?.piece && value?.value?.piece?.player == player).forEach((value: any) => {
+    console.log(player);
+    const place = checkPossibleMoves(value.value, gameBoardData, null, true, 0)
+    console.log(place);
+    place.forEach((place: any) => {
+      if (place.piece?.type === 'king') {
+        if (place.piece?.player != player) {
+          console.log(place, 'check');
+          check = true
+        }
+      }
+    })
   })
-  return places
+
+  console.log(check);
+
+  return check
 }
 
-export const isThereCheck = (gameBoardData: any, value: any, originalPiece: any) => {
+export const verifyCheckMate = (gameBoardData: any, player: number, currentMovement: number) => {
+  let moves: any = []
   let places: any = []
-  // console.log(mapGemeData(gameBoardData).find((p: any) => p.value.position === 'e8'), 'map');
-  const new2 = gameBoardData
-  const pieceCopy = originalPiece.piece
-  const valuePieceCopy = value?.piece
-  new2[originalPiece.y][originalPiece.x].piece = undefined
-  new2[value.y][value.x].piece = pieceCopy
-  // new2[originalPiece.y][originalPiece.x].piece = undefined
-  // const new4 = mapGemeData(new2).filter((place: any) => place.position != originalPiece.position)
-  // console.log(new2.find((a: any) => a.value.position === value.position, 'value'))
-  // const movement = new2.findIndex((a: any) => a.value.position == value.position, 'value')
-  // console.log(value)
-  // console.log(new2[movement])
-  // new2[movement].piece = value.piece
-  // console.log(new2[movement])
-  
-  console.log(new2)
-  // new2[value.y][value.x].value.piece = value.piece
-  mapGemeData(new2).filter((value: any) => value?.value?.piece && value?.value?.piece?.player != pieceCopy.player).forEach((value: any) => {
-    // if (value?.value?.piece?.type && value?.value?.piece?.player == player) {
-    // }
-    console.log(value.value);
+  const gameBoardDataCopy = Array.from(new Array([...gameBoardData])[0])
+  mapGemeData(gameBoardData).filter((value: any) => value?.value?.piece && value?.value?.piece?.player === player).forEach((value: any) => {
+    moves.push({
+      moves: [...checkPossibleMoves(value.value, gameBoardData, null, false, 0)],
+      originalPiece: value
+    })
+  })
+  // console.log(moves.filter((a: any) => a.position === 'e8'));
+  console.log(moves);
+  moves.forEach((value: any, index: number) => {
+    value.moves.forEach((m: any) => {
+      const asd = isThereCheck(gameBoardDataCopy, m, value.originalPiece.value, currentMovement)
+        console.log(asd, 'asd');
+        if (!asd) {
+          places.push(value.moves[0])
+        }
+    })
+  })
+  return places.length === 0
+}
 
-    // if (value.value.position != originalPiece.position)
-    places.push(...checkPossibleMoves(value.value, new2, null, true))
+export const validAllPossibleMoves = (gameBoardData: any, value: any, player: number, currentMovement: number) => {
+  let places: any = []
+  const new2 = gameBoardData
+  console.log(value);
+  const pieceCopy = value.originalPiece.piece
+  const valuePieceCopy = value?.piece
+  new2[value.originalPiece.y][value.originalPiece.x].piece = undefined
+  new2[value.y][value.x].piece = valuePieceCopy
+
+  mapGemeData(new2).filter((value: any) => value?.value?.piece && value?.value?.piece?.player != player).forEach((value: any) => {
+    places.push(...checkPossibleMoves(value.value, new2, null, true, currentMovement))
   })
   let check
   const uniqueArray = Array.from(new Set(places.map((a: any) => a.position)))
   .map(id => {
     return places.find((a: any) => a.position === id)
   })
-  console.log(places);
+  uniqueArray.forEach((place: any) => {
+    if (place.piece?.type === 'king') {
+      if (place.piece?.player !== player) {
+        console.log(place, 'check');
+        check = place
+      }
+    }
+  })
+  new2[value.originalPiece.y][value.originalPiece.x].piece = pieceCopy
+  new2[value.y][value.x].piece = valuePieceCopy
+  return check
+}
+
+export const isThereCheck = (gameBoardData: any, value: any, originalPiece: any, currentMovement: number) => {
+  let places: any = []
+  const new2 = gameBoardData
+  const pieceCopy = originalPiece.piece
+  const valuePieceCopy = value?.piece
+  new2[originalPiece.y][originalPiece.x].piece = undefined
+  new2[value.y][value.x].piece = pieceCopy
+
+  mapGemeData(new2).filter((value: any) => value?.value?.piece && value?.value?.piece?.player != pieceCopy.player).forEach((value: any) => {
+    places.push(...checkPossibleMoves(value.value, new2, null, true, currentMovement))
+  })
+  let check
+  const uniqueArray = Array.from(new Set(places.map((a: any) => a.position)))
+  .map(id => {
+    return places.find((a: any) => a.position === id)
+  })
   uniqueArray.forEach((place: any) => {
     if (place.piece?.type === 'king') {
       if (place.piece?.player === pieceCopy.player) {
@@ -55,16 +102,15 @@ export const isThereCheck = (gameBoardData: any, value: any, originalPiece: any)
   })
   new2[originalPiece.y][originalPiece.x].piece = pieceCopy
   new2[value.y][value.x].piece = valuePieceCopy
-  console.log(check, 'check');
   return check
 }
 
-export const verifyChecks2 = (gameBoardData: any, moves: any, piece: any) => {
+export const verifyChecks2 = (gameBoardData: any, moves: any, piece: any, currentMovement: number) => {
   let places: any = []
 
   const gameBoardDataCopy = Array.from(new Array([...gameBoardData])[0])
   moves.forEach((value: any, index: number) => {
-    const asd = isThereCheck(gameBoardDataCopy, value, piece)
+    const asd = isThereCheck(gameBoardDataCopy, value, piece, currentMovement)
     console.log(asd, 'asd');
     if (!asd) {
 
@@ -75,13 +121,13 @@ export const verifyChecks2 = (gameBoardData: any, moves: any, piece: any) => {
   return places
 }
 
-export const checkPossibleMoves = (piece: any, gameBoardData: any, checks: any = null, secondary: boolean = false) => {
+export const checkPossibleMoves = (piece: any, gameBoardData: any, checks: any = null, secondary: boolean = false, currentMovement: number) => {
   let moves: any = []
   if (piece.piece.type === 'knight'){
     moves = knightRules(piece, gameBoardData)
   }
   if (piece.piece.type === 'pawn'){
-    moves =  pawnRules(piece, gameBoardData)
+    moves =  pawnRules(piece, gameBoardData, currentMovement)
   }
   if (piece.piece.type === 'rook'){
     moves =  rookRules(piece, gameBoardData)
@@ -96,14 +142,11 @@ export const checkPossibleMoves = (piece: any, gameBoardData: any, checks: any =
   if (piece.piece.type === 'king'){
     moves =  kingRules(piece, gameBoardData, checks)
   }
-  /* console.log(mapGemeData(gameBoardData).find(p => p.value.position === 'd7').value.piece) */
   
-  if (!secondary) {
-    // console.log(moves);
-    moves = verifyChecks2(gameBoardData, moves, piece)
-  }
-  
-  let movesCopy: any = []
+  // if (!secondary) {
+  //   // console.log(moves);
+  //   moves = verifyChecks2(gameBoardData, moves, piece, currentMovement)
+  // }
   // if (!secondary) {
   //   const targetPlaces = checkTargetPlaces(gameBoardData, piece.piece.player)
   //   moves.map((value: any) => {
@@ -152,19 +195,31 @@ const kingRules = (piece: any, gameBoardData: any, checks: any) => {
       
     }
   })
-  if (!piece.initialMove)
+  if (!piece.initialMove && !checks)
   initialMovments.map((movesValue: any) => {
     const valueObject: any = new Object(movesValue)
     let yy = sum(piece.y, valueObject.y ?? 0)
     let xx = sum(piece.x, valueObject.x ?? 0)
-    console.log(xx);
-    console.log(yy);
     try {
       const pieceToMove = gameBoardData[yy][xx]
+      console.log(pieceToMove)
       if (pieceToMove?.position) {
         if (pieceToMove?.piece?.player != piece?.piece.player) {
-          if (xx == 6) pieceToMove.rightRook = gameBoardData[piece.y][piece.x + 1]
-          possibleMovements.push(pieceToMove)
+          if (xx == 6) {
+            if (gameBoardData[piece.y][piece.x + 1].piece) return 
+            const rightCastle = gameBoardData[piece.y][piece.x + 3]
+            if (rightCastle?.piece.initialMove) return
+            pieceToMove.rightCastle = rightCastle
+            possibleMovements.push(pieceToMove)
+          }
+          if (xx == 2) {
+            if (gameBoardData[piece.y][piece.x - 1].piece) return 
+            const leftCastle = gameBoardData[piece.y][piece.x - 4]
+            if (leftCastle?.piece.initialMove) return
+            pieceToMove.leftCastle = leftCastle
+            possibleMovements.push(pieceToMove)
+          }
+          
         }
       
       }
@@ -321,7 +376,7 @@ const rookRules = (piece: any, gameBoardData: any) => {
   return possibleMovements
 }
 
-const pawnRules = (piece: any, gameBoardData: any) => {
+const pawnRules = (piece: any, gameBoardData: any, currentMovement: number) => {
   const movementRules: any = new Object(moverules)
   const possibleMovements: any = []
   mapGemeData(gameBoardData).map((value: any) => {
@@ -364,6 +419,24 @@ const pawnRules = (piece: any, gameBoardData: any) => {
             
           }
         }
+        const rightPiece = gameBoardData[value.y][value.x + 1]
+        const leftPiece = gameBoardData[value.y][value.x - 1]
+        if (rightPiece?.specialPawnMove && rightPiece?.piece?.moveNumber === currentMovement - 1) {
+          let pieceToMove = gameBoardData[value.y - 1][value.x + 1]
+          if (piece.piece.player == 2) {
+            pieceToMove = gameBoardData[value.y + 1][value.x + 1]
+          }
+          pieceToMove.specialMove = 'specialPawnEat'
+          possibleMovements.push(pieceToMove)
+        }
+        if (leftPiece?.specialPawnMove && leftPiece?.piece?.moveNumber === currentMovement - 1) {
+          let pieceToMove = gameBoardData[value.y - 1][value.x - 1]
+          if (piece.piece.player == 2) {
+            pieceToMove = gameBoardData[value.y + 1][value.x - 1]
+          }
+          pieceToMove.specialMove = 'specialPawnEat'
+          possibleMovements.push(pieceToMove)
+        }
       })
       if (value.value.piece.player == 1) {
         if (gameBoardData[value.y - 1][value.x].piece){
@@ -375,22 +448,36 @@ const pawnRules = (piece: any, gameBoardData: any) => {
         }
       }
       !piece.piece.initialMove &&
-      initialMovments.map((movesValue: any) => {
-        const valueObject: any = new Object(movesValue)
-        let y = value.y - (valueObject.y)
-        let x = value.x - (valueObject.x)
-        if (piece.piece.player == 2) {
-          x = value.x + (valueObject.x)
-          y = value.y + (valueObject.y)
+      initialMovments.map((movesValue: any, index: number) => {
+        try {
+          const valueObject: any = new Object(movesValue)
+          let y = value.y - (valueObject.y)
+          let x = value.x - (valueObject.x)
+          if (piece.piece.player == 2) {
+            x = value.x + (valueObject.x)
+            y = value.y + (valueObject.y)
+          }
+          const pieceToMove = gameBoardData[y][x]
+          if (pieceToMove?.position && !pieceToMove?.piece) {
+            pieceToMove.originalPiece = piece
+            pieceToMove.specialPawnMove = true
+            possibleMovements.push(pieceToMove)
+          }
+        } catch (error) {
+          
         }
-        const pieceToMove = gameBoardData[y][x]
-        if (pieceToMove?.position && !pieceToMove?.piece) {
-          pieceToMove.originalPiece = piece
-          possibleMovements.push(pieceToMove)
-        }
+        
       })
     }
   })
+  possibleMovements.map((movement: any, index: number) => {
+    if (piece.piece.player ===  1 && movement.y === 0) {
+      possibleMovements[index].specialMove = 'promotion'
+    }
+    if (piece.piece.player ===  2 && movement.y === 7) {
+      possibleMovements[index].specialMove = 'promotion'
+    }
+  }) 
   return possibleMovements
 }
 
