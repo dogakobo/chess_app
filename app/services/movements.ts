@@ -136,17 +136,16 @@ export const checkPossibleMoves = (piece: any, gameBoardData: any, checks: any =
     moves =  bishopRules(piece, gameBoardData)
   }
   if (piece.piece.type === 'queen'){
-    const rules = [...rookRules(piece, gameBoardData), ...bishopRules(piece, gameBoardData)]
-    moves =  rules
+    moves = [...rookRules(piece, gameBoardData), ...bishopRules(piece, gameBoardData)]
   }
   if (piece.piece.type === 'king'){
     moves =  kingRules(piece, gameBoardData, checks)
   }
   
-  // if (!secondary) {
-  //   // console.log(moves);
-  //   moves = verifyChecks2(gameBoardData, moves, piece, currentMovement)
-  // }
+  if (!secondary) {
+    // console.log(moves);
+    moves = verifyChecks2(gameBoardData, moves, piece, currentMovement)
+  }
   // if (!secondary) {
   //   const targetPlaces = checkTargetPlaces(gameBoardData, piece.piece.player)
   //   moves.map((value: any) => {
@@ -185,7 +184,7 @@ const kingRules = (piece: any, gameBoardData: any, checks: any) => {
       const pieceToMove = gameBoardData[yy][xx]
       if (pieceToMove?.position) {
         if (pieceToMove?.piece?.player != piece?.piece.player) {
-          pieceToMove.originalPiece = piece
+          // pieceToMove.originalPiece = piece
           pieceToMove.initialMove = true
           possibleMovements.push(pieceToMove)
         }
@@ -195,14 +194,13 @@ const kingRules = (piece: any, gameBoardData: any, checks: any) => {
       
     }
   })
-  if (!piece.initialMove && !checks)
+  if (!piece.initialMove)
   initialMovments.map((movesValue: any) => {
     const valueObject: any = new Object(movesValue)
     let yy = sum(piece.y, valueObject.y ?? 0)
     let xx = sum(piece.x, valueObject.x ?? 0)
     try {
       const pieceToMove = gameBoardData[yy][xx]
-      console.log(pieceToMove)
       if (pieceToMove?.position) {
         if (pieceToMove?.piece?.player != piece?.piece.player) {
           if (xx == 6) {
@@ -238,13 +236,13 @@ const bishopRules = (piece: any, gameBoardData: any) => {
       try {
         const pieceToMove = gameBoardData[yy][xx]
         if (pieceToMove?.piece) {
-          pieceToMove.originalPiece = piece
+          // pieceToMove.originalPiece = piece
           if (pieceToMove?.piece.player != piece.piece.player) possibleMovements.push(pieceToMove)
             
           break
         } 
         if (piece.position !== pieceToMove.position) {
-          pieceToMove.originalPiece = piece
+          // pieceToMove.originalPiece = piece
           possibleMovements.push(pieceToMove)
         }
       } catch (error) {
@@ -257,13 +255,13 @@ const bishopRules = (piece: any, gameBoardData: any) => {
       try {
         const pieceToMove = gameBoardData[yy][xx]
         if (pieceToMove?.piece) {
-          pieceToMove.originalPiece = piece
+          // pieceToMove.originalPiece = piece
           if (pieceToMove?.piece.player != piece.piece.player) possibleMovements.push(pieceToMove)
             
           break
         } 
         if (piece.position !== pieceToMove.position) {
-          pieceToMove.originalPiece = piece
+          // pieceToMove.originalPiece = piece
           possibleMovements.push(pieceToMove)
         }
       } catch (error) {
@@ -276,13 +274,13 @@ const bishopRules = (piece: any, gameBoardData: any) => {
       try {
         const pieceToMove = gameBoardData[yy][xx]
         if (pieceToMove?.piece) {
-          pieceToMove.originalPiece = piece
+          // pieceToMove.originalPiece = piece
           if (pieceToMove?.piece.player != piece.piece.player) possibleMovements.push(pieceToMove)
             
           break
         } 
         if (piece.position !== pieceToMove.position) {
-          pieceToMove.originalPiece = piece
+          // pieceToMove.originalPiece = piece
           possibleMovements.push(pieceToMove)
         }
       } catch (error) {
@@ -295,13 +293,13 @@ const bishopRules = (piece: any, gameBoardData: any) => {
       try {
         const pieceToMove = gameBoardData[yy][xx]
         if (pieceToMove?.piece) {
-          pieceToMove.originalPiece = piece
+          // pieceToMove.originalPiece = piece
           if (pieceToMove?.piece.player != piece.piece.player) possibleMovements.push(pieceToMove)
             
           break
         } 
         if (piece.position !== pieceToMove.position) {
-          pieceToMove.originalPiece = piece
+          // pieceToMove.originalPiece = piece
           possibleMovements.push(pieceToMove)
         }
       } catch (error) {
@@ -316,7 +314,7 @@ const rookRules = (piece: any, gameBoardData: any) => {
   const possibleMovements: any = []
   mapGemeData(gameBoardData).map((value: any) => {
     if (piece.position === value.value.position) {
-      const ordinaryMovments = movementRules[piece.piece.type].ordinaryMove
+      const ordinaryMovments = movementRules['rook'].ordinaryMove
       ordinaryMovments.map((movesValue: any) => {
         const valueObject: any = new Object(movesValue)
         const limitY = valueObject.y ?? 0
@@ -329,13 +327,13 @@ const rookRules = (piece: any, gameBoardData: any) => {
               const pieceToMove = gameBoardData[yy][xx]
               if (pieceToMove?.piece && (piece.position !== pieceToMove.position)) {
                 if (pieceToMove?.piece.player != piece.piece.player) {
-                  pieceToMove.originalPiece = piece
+                  // pieceToMove.originalPiece = piece
                   possibleMovements.push(pieceToMove)
                 }
                 return
               }
               if (pieceToMove?.position && !pieceToMove?.piece) {
-                pieceToMove.originalPiece = piece
+                // pieceToMove.originalPiece = piece
                 possibleMovements.push(pieceToMove)
               }
             } catch (error) {
@@ -356,13 +354,13 @@ const rookRules = (piece: any, gameBoardData: any) => {
               const pieceToMove = gameBoardData[yy][xx]
               if (pieceToMove?.piece && (piece.position !== pieceToMove.position)) {
                 if (pieceToMove?.piece.player != piece.piece.player) {
-                  pieceToMove.originalPiece = piece
+                  // pieceToMove.originalPiece = piece
                   possibleMovements.push(pieceToMove)
                 }
                 return
               }
               if (pieceToMove?.position && pieceToMove?.piece?.player != piece.piece.player) {
-                pieceToMove.originalPiece = piece
+                // pieceToMove.originalPiece = piece
                 possibleMovements.push(pieceToMove)
               }
             } catch (error) {
@@ -395,7 +393,8 @@ const pawnRules = (piece: any, gameBoardData: any, currentMovement: number) => {
         try {
           const pieceToMove = gameBoardData[y][x]
           if (pieceToMove?.position && !pieceToMove?.piece) {
-            pieceToMove.originalPiece = piece
+            // pieceToMove.originalPiece = piece
+            pieceToMove.specialPawnMove = false
             possibleMovements.push(pieceToMove)
           }
         } catch (error) {
@@ -413,7 +412,8 @@ const pawnRules = (piece: any, gameBoardData: any, currentMovement: number) => {
         if (gameBoardData[y][x]?.piece?.player && (gameBoardData[y][x]?.piece?.player != piece.piece.player)) {
           try {
             const pieceToMove = gameBoardData[y][x]
-            pieceToMove.originalPiece = piece
+            // pieceToMove.originalPiece = piece
+            pieceToMove.specialPawnMove = false
             possibleMovements.push(pieceToMove)
           } catch (error) {
             
@@ -421,7 +421,7 @@ const pawnRules = (piece: any, gameBoardData: any, currentMovement: number) => {
         }
         const rightPiece = gameBoardData[value.y][value.x + 1]
         const leftPiece = gameBoardData[value.y][value.x - 1]
-        if (rightPiece?.specialPawnMove && rightPiece?.piece?.moveNumber === currentMovement - 1) {
+        if (rightPiece?.specialPawnMove && rightPiece?.piece?.moveNumber === currentMovement - 1 && rightPiece?.piece?.type === 'pawn') {
           let pieceToMove = gameBoardData[value.y - 1][value.x + 1]
           if (piece.piece.player == 2) {
             pieceToMove = gameBoardData[value.y + 1][value.x + 1]
@@ -429,7 +429,7 @@ const pawnRules = (piece: any, gameBoardData: any, currentMovement: number) => {
           pieceToMove.specialMove = 'specialPawnEat'
           possibleMovements.push(pieceToMove)
         }
-        if (leftPiece?.specialPawnMove && leftPiece?.piece?.moveNumber === currentMovement - 1) {
+        if (leftPiece?.specialPawnMove && leftPiece?.piece?.moveNumber === currentMovement - 1 && leftPiece?.piece?.type === 'pawn') {
           let pieceToMove = gameBoardData[value.y - 1][value.x - 1]
           if (piece.piece.player == 2) {
             pieceToMove = gameBoardData[value.y + 1][value.x - 1]
@@ -459,7 +459,7 @@ const pawnRules = (piece: any, gameBoardData: any, currentMovement: number) => {
           }
           const pieceToMove = gameBoardData[y][x]
           if (pieceToMove?.position && !pieceToMove?.piece) {
-            pieceToMove.originalPiece = piece
+            // pieceToMove.originalPiece = piece
             pieceToMove.specialPawnMove = true
             possibleMovements.push(pieceToMove)
           }
@@ -493,7 +493,7 @@ const knightRules = (piece: any, gameBoardData: any) => {
           const pieceToMove = gameBoardData[value.y - (valueObject.y)][value.x - (valueObject.x)]
           if (pieceToMove?.position && (pieceToMove?.piece?.player !== piece.piece.player)) {
             possibleMovements.push(pieceToMove)
-            pieceToMove.originalPiece = piece
+            // pieceToMove.originalPiece = piece
           }
         } catch (error) {
           

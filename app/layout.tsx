@@ -16,6 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script src="https://cdn.socket.io/4.8.1/socket.io.esm.min.js"></script>
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );

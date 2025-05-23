@@ -6,8 +6,10 @@ export default function Home() {
 
   return (
     <div className="h-screen w-screen bg-yellow-100">
-      <Game />
-      <Board />
+      <div id="board" className="h-screen w-[50vh] relative origin-right">
+        <Game />
+        <Board />
+      </div>
     </div>
   )
 }
