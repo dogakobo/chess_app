@@ -4,20 +4,16 @@ import moverules from '../data/moverules.json';
 export const findCheck = (gameBoardData: any, player: number) => {
   let check
   mapGemeData(gameBoardData).filter((value: any) => value?.value?.piece && value?.value?.piece?.player == player).forEach((value: any) => {
-    console.log(player);
     const place = checkPossibleMoves(value.value, gameBoardData, null, true, 0)
-    console.log(place);
     place.forEach((place: any) => {
       if (place.piece?.type === 'king') {
         if (place.piece?.player != player) {
-          console.log(place, 'check');
           check = true
         }
       }
     })
   })
 
-  console.log(check);
 
   return check
 }
@@ -32,12 +28,9 @@ export const verifyCheckMate = (gameBoardData: any, player: number, currentMovem
       originalPiece: value
     })
   })
-  // console.log(moves.filter((a: any) => a.position === 'e8'));
-  console.log(moves);
   moves.forEach((value: any, index: number) => {
     value.moves.forEach((m: any) => {
       const asd = isThereCheck(gameBoardDataCopy, m, value.originalPiece.value, currentMovement)
-        console.log(asd, 'asd');
         if (!asd) {
           places.push(value.moves[0])
         }
@@ -49,7 +42,6 @@ export const verifyCheckMate = (gameBoardData: any, player: number, currentMovem
 export const validAllPossibleMoves = (gameBoardData: any, value: any, player: number, currentMovement: number) => {
   let places: any = []
   const new2 = gameBoardData
-  console.log(value);
   const pieceCopy = value.originalPiece.piece
   const valuePieceCopy = value?.piece
   new2[value.originalPiece.y][value.originalPiece.x].piece = undefined
@@ -66,7 +58,6 @@ export const validAllPossibleMoves = (gameBoardData: any, value: any, player: nu
   uniqueArray.forEach((place: any) => {
     if (place.piece?.type === 'king') {
       if (place.piece?.player !== player) {
-        console.log(place, 'check');
         check = place
       }
     }
@@ -95,7 +86,6 @@ export const isThereCheck = (gameBoardData: any, value: any, originalPiece: any,
   uniqueArray.forEach((place: any) => {
     if (place.piece?.type === 'king') {
       if (place.piece?.player === pieceCopy.player) {
-        console.log(place, 'check');
         check = place
       }
     }
@@ -111,7 +101,6 @@ export const verifyChecks2 = (gameBoardData: any, moves: any, piece: any, curren
   const gameBoardDataCopy = Array.from(new Array([...gameBoardData])[0])
   moves.forEach((value: any, index: number) => {
     const asd = isThereCheck(gameBoardDataCopy, value, piece, currentMovement)
-    console.log(asd, 'asd');
     if (!asd) {
 
       places.push(value)
@@ -141,24 +130,9 @@ export const checkPossibleMoves = (piece: any, gameBoardData: any, checks: any =
   if (piece.piece.type === 'king'){
     moves =  kingRules(piece, gameBoardData, checks)
   }
-  
   if (!secondary) {
-    // console.log(moves);
     moves = verifyChecks2(gameBoardData, moves, piece, currentMovement)
   }
-  // if (!secondary) {
-  //   const targetPlaces = checkTargetPlaces(gameBoardData, piece.piece.player)
-  //   moves.map((value: any) => {
-  //     console.log(targetPlaces);
-  //     console.log(value);
-  //     const isTargered = targetPlaces.find((target: any) => value.position === target.position)
-  //     console.log(isTargered);
-  //     if (!isTargered) {
-  //       movesCopy.push(value)
-  //     }
-  //   })
-  //   moves = movesCopy
-  // }
   return moves
 }
 
