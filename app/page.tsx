@@ -1,6 +1,5 @@
-import Image from "next/image";
-import Board from './components/Board';
-import Game from './components/Game';
+import Board from './components/Board'
+import Game from './components/Game'
 
 export default function Home() {
 

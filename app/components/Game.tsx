@@ -1,13 +1,13 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
 import pieces from '../data/pieces_copy.json'
-import { checkPossibleMoves, findCheck, verifyCheckMate } from '../services/movements';
-import { socket } from "@/app/services/socket";
+import { checkPossibleMoves, findCheck, verifyCheckMate } from '../services/movements'
+import { socket } from "@/app/services/socket"
 import { useSearchParams } from 'next/navigation'
-import { MdTripOrigin, MdContentCopy } from "react-icons/md";
+import { MdTripOrigin, MdContentCopy } from "react-icons/md"
 import { Poppins, Nunito } from 'next/font/google'
 import { usePathname, useRouter } from 'next/navigation'
-// import { useRouter } from 'next/router'
+import { Suspense } from 'react'
 
 const PoppinsFont = Poppins({ weight: ['400', '500'], subsets: ['latin'] })
 const NunitoFont = Poppins({ weight: ['400', '500'], subsets: ['latin'] })
@@ -22,7 +22,7 @@ function makeid(length: number) {
     return result;
 }
 
-const selectedPlayer = Math.floor(Math.random() * 2) + 1;
+const selectedPlayer = Math.floor(Math.random() * 2) + 1
 
 export default function Game() {
   const searchParams = useSearchParams()
@@ -56,6 +56,8 @@ export default function Game() {
 
   const [isConnected, setIsConnected] = useState(false);
   const [transport, setTransport] = useState("N/A");
+
+  const search = searchParams.get('match')
 
   const sendMessage = (ev: any) => {
       ev.preventDefault()
@@ -178,7 +180,6 @@ export default function Game() {
     }
  
     function onConnect() {
-      const search = searchParams.get('match')
       if (!search) {
         const newPath = `/?match=${match}`
         router.replace(newPath)
@@ -356,170 +357,172 @@ export default function Game() {
   }
 
   return (
-    <div className='flex absolute w-screen'>
+    <Suspense>
+      <div className='flex absolute w-screen'>
 
-        {
-          (promotionPiece !== null) &&
-          <div style={{ width: height * 8 }} className='absolute h-screen top-0 z-40 bg-gray-600/10'>
-            <div className='grid place-content-center h-full '>
-              <section className='flex bg-white border border-gray-400 rounded-lg'>
-                <img onClick={() => crown('knight', `/pieces-images/knight-player${player}.png`)} className='hover:bg-gray-300 rounded-lg cursor-pointer' width={boardRef.current?.offsetHeight / 8}  height={boardRef.current?.offsetHeight / 8} src={`/pieces-images/knight-player${player}.png`} />
-                <img onClick={() => crown('queen', `/pieces-images/queen-player${player}.png`)} className='hover:bg-gray-300 rounded-lg cursor-pointer' width={boardRef.current?.offsetHeight / 8}  height={boardRef.current?.offsetHeight / 8} src={`/pieces-images/queen-player${player}.png`} />
-                <img onClick={() => crown('rook', `/pieces-images/rook-player${player}.png`)} className='hover:bg-gray-300 rounded-lg cursor-pointer' width={boardRef.current?.offsetHeight / 8}  height={boardRef.current?.offsetHeight / 8} src={`/pieces-images/rook-player${player}.png`} />
-                <img onClick={() => crown('bishop', `/pieces-images/bishop-player${player}.png`)} className='hover:bg-gray-300 rounded-lg cursor-pointer' width={boardRef.current?.offsetHeight / 8}  height={boardRef.current?.offsetHeight / 8} src={`/pieces-images/bishop-player${player}.png`} />
-              </section>
-            </div>
-          </div>
-        }
-        {
-          checkMate &&
-          <div style={{ width: height * 8 }} className='absolute h-screen top-0 z-40 bg-stone-800/30'>
-            <div className='grid place-content-center h-full '>
-              <section className='flex bg-white border border-gray-400 rounded-lg'>
-                <p className='px-8 py-4 text-xl '>
-                  {turn === 2 ? 'White ' : 'Black '} 
-                  Wins
-                </p>
-              </section>
-            </div>
-          </div>
-        }
-      <div ref={boardRef} style={{ width: height * 8 }} className='h-screen max-h-screen relative z-20 bg-transparent origin-center'>
-        <div className='grid grid-cols-8 relative z-10'>
           {
-            gameBoardData.map((value: any, index1: number) => {
-              return value.map((piece: any, index2: number) => {
-                const colorText = (index2 % 2 - ( index1 % 2 === 0 ? 1 : 0 ) === 0) ? 'rgb(235, 236, 208)' : ' rgb(115,149,82)'
-                const checkClassname = (piece?.piece?.type === 'king' && check && piece?.piece?.player === checkPlayer)
-                return <div
-                  onMouseUp={() => !selectPiece?.piece?.player ? selectSquare(piece) : checkMovement(piece)}
-                  onMouseDown={() => !selectPiece?.piece?.player ? selectSquare(piece) : checkMovement(piece)}
-                  style={{
-                    // top: piece.coords.y + 'px',
-                    // left: piece.coords.x + 'px',
-                    width: boardRef.current.offsetHeight / 8 + 'px',
-                    height: boardRef.current.offsetHeight / 8 + 'px',
-                    background: checkClassname ? 'oklch(64.5% 0.246 16.439': '',
-                    transform: `rotate(${player === 2 ? '180deg' : '0deg'})`
-                  }}
-                  className='' key={piece.position}>
+            (promotionPiece !== null) &&
+            <div style={{ width: height * 8 }} className='absolute h-screen top-0 z-40 bg-gray-600/10'>
+              <div className='grid place-content-center h-full '>
+                <section className='flex bg-white border border-gray-400 rounded-lg'>
+                  <img onClick={() => crown('knight', `/pieces-images/knight-player${player}.png`)} className='hover:bg-gray-300 rounded-lg cursor-pointer' width={boardRef.current?.offsetHeight / 8}  height={boardRef.current?.offsetHeight / 8} src={`/pieces-images/knight-player${player}.png`} />
+                  <img onClick={() => crown('queen', `/pieces-images/queen-player${player}.png`)} className='hover:bg-gray-300 rounded-lg cursor-pointer' width={boardRef.current?.offsetHeight / 8}  height={boardRef.current?.offsetHeight / 8} src={`/pieces-images/queen-player${player}.png`} />
+                  <img onClick={() => crown('rook', `/pieces-images/rook-player${player}.png`)} className='hover:bg-gray-300 rounded-lg cursor-pointer' width={boardRef.current?.offsetHeight / 8}  height={boardRef.current?.offsetHeight / 8} src={`/pieces-images/rook-player${player}.png`} />
+                  <img onClick={() => crown('bishop', `/pieces-images/bishop-player${player}.png`)} className='hover:bg-gray-300 rounded-lg cursor-pointer' width={boardRef.current?.offsetHeight / 8}  height={boardRef.current?.offsetHeight / 8} src={`/pieces-images/bishop-player${player}.png`} />
+                </section>
+              </div>
+            </div>
+          }
+          {
+            checkMate &&
+            <div style={{ width: height * 8 }} className='absolute h-screen top-0 z-40 bg-stone-800/30'>
+              <div className='grid place-content-center h-full '>
+                <section className='flex bg-white border border-gray-400 rounded-lg'>
+                  <p className='px-8 py-4 text-xl '>
+                    {turn === 2 ? 'White ' : 'Black '} 
+                    Wins
+                  </p>
+                </section>
+              </div>
+            </div>
+          }
+        <div ref={boardRef} style={{ width: height * 8 }} className='h-screen max-h-screen relative z-20 bg-transparent origin-center'>
+          <div className='grid grid-cols-8 relative z-10'>
+            {
+              gameBoardData.map((value: any, index1: number) => {
+                return value.map((piece: any, index2: number) => {
+                  const colorText = (index2 % 2 - ( index1 % 2 === 0 ? 1 : 0 ) === 0) ? 'rgb(235, 236, 208)' : ' rgb(115,149,82)'
+                  const checkClassname = (piece?.piece?.type === 'king' && check && piece?.piece?.player === checkPlayer)
+                  return <div
+                    onMouseUp={() => !selectPiece?.piece?.player ? selectSquare(piece) : checkMovement(piece)}
+                    onMouseDown={() => !selectPiece?.piece?.player ? selectSquare(piece) : checkMovement(piece)}
+                    style={{
+                      // top: piece.coords.y + 'px',
+                      // left: piece.coords.x + 'px',
+                      width: boardRef.current.offsetHeight / 8 + 'px',
+                      height: boardRef.current.offsetHeight / 8 + 'px',
+                      background: checkClassname ? 'oklch(64.5% 0.246 16.439': '',
+                      transform: `rotate(${player === 2 ? '180deg' : '0deg'})`
+                    }}
+                    className='' key={piece.position}>
+                    {
+                      piece?.piece?.image && <span>
+                        <img src={piece?.piece?.image} width={width}  height={height} className={`z-10 absolute`} style={{ transform: `rotate(${player === 2 ? '0deg' : '0deg'})`}} />
+                      </span>
+                    }
+                    
+                    {
+                      possibleMoves.map((possibleMovePiece: any, index: number) => possibleMovePiece.position === piece.position &&
+                      <div className='w-full h-full grid place-content-center relative z-20' key={index}>
+                        <p className='text-[60px]'>
+                          <MdTripOrigin style={{ color: colorText}}/>
+                        </p>
+                      </div>
+                    ) 
+                    }
+                    <p style={{ color: colorText}} className='absolute top-0 left-0 z-50 pl-1' onClick={() => setSquare(piece)}>.
+                      {piece.position}
+                    </p>
+                  </div>
+                }
+              )
+              })
+            }
+          </div>
+        </div>
+        <div style={{ width: (fullWidth - (height * 8)) }} className='h-screen max-h-screen relative z-20 p-4 bg-stone-800'>
+          <div className='flex justify-between w-full'>
+            <div>
+              <p style={NunitoFont.style} className='text-sm py-1 px-2 bg-stone-500 rounded-t-lg w-max text-stone-100'>
+                Comparte este link para buscar oponente:
+              </p>
+              <div className='bg-stone-600 text-stone-50 p-4 rounded-b-lg rounded-tr-lg flex justify-between space-x-8 cursor-pointer w-max'>
+                <p style={PoppinsFont.style} className=''>
+                  localhost:3000/?match={match}
+                </p>
+                <MdContentCopy className='self-center text-2xl' />
+              </div>
+            </div>
+            
+          </div>
+          {
+            !matchStarted ? <div style={{ height:  (height * 8) - ((fullWidth - (height * 8)) / 2) - 150  }} className='px-4 text-stone-400 w-full grid place-content-center'>
+              <div className='h-max w-max grid justify-items-center'>
+                <span className='lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] bg-transparent border-[10px] rounded-full border-stone-700 border-b-stone-500 inline-block animate-spin'>
+                </span>
+                <p style={NunitoFont.style} className='pt-4'> 
+                  Waiting for oponent . . .
+                </p>
+              </div>
+            </div>
+            : 
+            <div className='mt-3 relative flex justify-between w-full'>
+              <div className='w-max'>
+                <div style={PoppinsFont.style} className='flex space-x-6 bg-stone-600 px-5 py-2 rounded-lg'>
+                  <div className='self-center text-stone-100'>You play with </div>
                   {
-                    piece?.piece?.image && <span>
-                      <img src={piece?.piece?.image} width={width}  height={height} className={`z-10 absolute`} style={{ transform: `rotate(${player === 2 ? '0deg' : '0deg'})`}} />
-                    </span>
+                    player === 1
+                    ? <div className='w-10 h-10 bg-stone-200 rounded-sm shadow-lg' />
+                    : <div className='w-10 h-10 bg-stone-700 rounded-sm shadow-lg' />
                   }
                   
-                  {
-                    possibleMoves.map((possibleMovePiece: any) => possibleMovePiece.position === piece.position &&
-                    <div className='w-full h-full grid place-content-center relative z-20'>
-                      <p className='text-[60px]'>
-                        <MdTripOrigin style={{ color: colorText}}/>
-                      </p>
-                    </div>
-                  ) 
-                  }
-                  <p style={{ color: colorText}} className='absolute top-0 left-0 z-50 pl-1' onClick={() => setSquare(piece)}>.
-                    {piece.position}
-                  </p>
                 </div>
-              }
-            )
-            })
-          }
-        </div>
-      </div>
-      <div style={{ width: (fullWidth - (height * 8)) }} className='h-screen max-h-screen relative z-20 p-4 bg-stone-800'>
-        <div className='flex justify-between w-full'>
-          <div>
-            <p style={NunitoFont.style} className='text-sm py-1 px-2 bg-stone-500 rounded-t-lg w-max text-stone-100'>
-              Comparte este link para buscar oponente:
-            </p>
-            <div className='bg-stone-600 text-stone-50 p-4 rounded-b-lg rounded-tr-lg flex justify-between space-x-8 cursor-pointer w-max'>
-              <p style={PoppinsFont.style} className=''>
-                localhost:3000/?match={match}
-              </p>
-              <MdContentCopy className='self-center text-2xl' />
-            </div>
-          </div>
-          
-        </div>
-        {
-          !matchStarted ? <div style={{ height:  (height * 8) - ((fullWidth - (height * 8)) / 2) - 150  }} className='px-4 text-stone-400 w-full grid place-content-center'>
-            <div className='h-max w-max grid justify-items-center'>
-              <span className='lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] bg-transparent border-[10px] rounded-full border-stone-700 border-b-stone-500 inline-block animate-spin'>
-              </span>
-              <p style={NunitoFont.style} className='pt-4'> 
-                Waiting for oponent . . .
-              </p>
-            </div>
-          </div>
-          : 
-          <div className='mt-3 relative flex justify-between w-full'>
-            <div className='w-max'>
-              <div style={PoppinsFont.style} className='flex space-x-6 bg-stone-600 px-5 py-2 rounded-lg'>
-                <div className='self-center text-stone-100'>You play with </div>
                 {
-                  player === 1
-                  ? <div className='w-10 h-10 bg-stone-200 rounded-sm shadow-lg' />
-                  : <div className='w-10 h-10 bg-stone-700 rounded-sm shadow-lg' />
+                  turn === player && <p style={PoppinsFont.style} className='text-stone-100 bg-stone-500 mt-2 px-2 py-0.5 rounded-md'>You turn!</p>
                 }
-                
               </div>
-              {
-                turn === player && <p style={PoppinsFont.style} className='text-stone-100 bg-stone-500 mt-2 px-2 py-0.5 rounded-md'>You turn!</p>
-              }
-            </div>
-            <div style={{ height:  (height * 8) - ((fullWidth - (height * 8)) / 2) - 150, width: fullWidth / 3  }}>
-                <div className='bg-stone-600 p-4 rounded-md h-full flex flex-col justify-start'>
-                  <div style={PoppinsFont.style} ref={movementsBoxRef} id='chat-box' className='pb-4 overflow-y-scroll grid grid-cols-2'>
-                    {
-                      movesHistory.map((movement: any) => {
-                        const classnames = movement.player === 1 ? 'text-stone-800 bg-stone-100' : 'bg-stone-800 text-stone-100'
-                        if (movement?.from)
-                        return <div className='text-stone-200 flex justify-start mb-2 w-max'>
-                          <p className='pr-4 self-center text-xl font-medium'>{movement.turn + 1}.- </p>
-                          <div className='flex space-x-1 bg-stone-500 px-4 rounded-md shadow-sm w-[90px]'>
-                            <img className='self-center -ml-2' width={40} src={movement.from.piece.image} alt="" />
-                            <p style={PoppinsFont.style} className='self-center text-lg'>{movement.from.position}</p>
+              <div style={{ height:  (height * 8) - ((fullWidth - (height * 8)) / 2) - 150, width: fullWidth / 3  }}>
+                  <div className='bg-stone-600 p-4 rounded-md h-full flex flex-col justify-start'>
+                    <div style={PoppinsFont.style} ref={movementsBoxRef} id='chat-box' className='pb-4 overflow-y-scroll grid grid-cols-2'>
+                      {
+                        movesHistory.map((movement: any, index: number) => {
+                          const classnames = movement.player === 1 ? 'text-stone-800 bg-stone-100' : 'bg-stone-800 text-stone-100'
+                          if (movement?.from)
+                          return <div className='text-stone-200 flex justify-start mb-2 w-max' key={index}>
+                            <p className='pr-4 self-center text-xl font-medium'>{movement.turn + 1}.- </p>
+                            <div className='flex space-x-1 bg-stone-500 px-4 rounded-md shadow-sm w-[90px]'>
+                              <img className='self-center -ml-2' width={40} src={movement.from.piece.image} alt="" />
+                              <p style={PoppinsFont.style} className='self-center text-lg'>{movement.from.position}</p>
+                            </div>
                           </div>
-                        </div>
-                        }
-                      )
-                    }
+                          }
+                        )
+                      }
+                    </div>
                   </div>
                 </div>
-              </div>
-          </div>
-        }
-        <form onSubmit={(ev: any) => sendMessage(ev)} style={{ height: (fullWidth - (height * 8)) / 2, ...PoppinsFont.style }} className='w-full left-0 bottom-4 absolute'>
-          <div className='bg-stone-600 mx-4 p-4 rounded-md h-full flex flex-col justify-end'>
-            <div ref={chatBoxRef} id='chat-box' className='pb-4 overflow-y-scroll'>
-              {
-                chatHistory.map((message: any) => {
-                  const classnames = message.player === 1 ? 'text-stone-800 bg-stone-100' : 'bg-stone-800 text-stone-100'
-                  return <div>
-                    {
-                      message.message &&
-                      <div className='flex space-x-1 mb-2'>
-                        <p className={'font-medium w-max self-center px-2 py-1 rounded-md text-sm ' + classnames}>Player {message.player}</p>
-                        <p className='self-center text-lg text-stone-100'>: {message.message}</p>
-                      </div>
+            </div>
+          }
+          <form onSubmit={(ev: any) => sendMessage(ev)} style={{ height: (fullWidth - (height * 8)) / 2, ...PoppinsFont.style }} className='w-full left-0 bottom-4 absolute'>
+            <div className='bg-stone-600 mx-4 p-4 rounded-md h-full flex flex-col justify-end'>
+              <div ref={chatBoxRef} id='chat-box' className='pb-4 overflow-y-scroll'>
+                {
+                  chatHistory.map((message: any, index: number) => {
+                    const classnames = message.player === 1 ? 'text-stone-800 bg-stone-100' : 'bg-stone-800 text-stone-100'
+                    return <div key={index}>
+                      {
+                        message.message &&
+                        <div className='flex space-x-1 mb-2'>
+                          <p className={'font-medium w-max self-center px-2 py-1 rounded-md text-sm ' + classnames}>Player {message.player}</p>
+                          <p className='self-center text-lg text-stone-100'>: {message.message}</p>
+                        </div>
+                      }
+                    </div>
                     }
-                  </div>
-                  }
-                )
-              }
+                  )
+                }
 
+              </div>
+              <div className='flex w-full bg-stone-700 rounded-lg'>
+                <input onChange={(ev: any) => setChatText(ev.target.value)} value={chatText} type="text" className='bg-stone-700 focus:outline-none text-stone-50 px-4 py-2 rounded-lg w-full placeholder:text-stone-400' placeholder='Chat here' />
+                <button type='submit' className='bg-stone-100 text-stone-800 rounded px-3 py-1 w-[200px] hover:bg-stone-800 hover:text-stone-200 transition-colors duration-[100ms] ease-in-out'>
+                  Send message
+                </button>
+              </div>
             </div>
-            <div className='flex w-full bg-stone-700 rounded-lg'>
-              <input onChange={(ev: any) => setChatText(ev.target.value)} value={chatText} type="text" className='bg-stone-700 focus:outline-none text-stone-50 px-4 py-2 rounded-lg w-full placeholder:text-stone-400' placeholder='Chat here' />
-              <button type='submit' className='bg-stone-100 text-stone-800 rounded px-3 py-1 w-[200px] hover:bg-stone-800 hover:text-stone-200 transition-colors duration-[100ms] ease-in-out'>
-                Send message
-              </button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
+    </Suspense>
   )
 }
