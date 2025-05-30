@@ -440,7 +440,7 @@ export default function Game() {
             </p>
             <div className='bg-stone-600 text-stone-50 p-4 rounded-b-lg rounded-tr-lg flex justify-between space-x-8 cursor-pointer w-max'>
               <p style={PoppinsFont.style} className=''>
-                {process.env.NEXT_PULBIC_URL}/?match={match}
+                {process.env.NEXT_PUBLIC_URL}/?match={match}
               </p>
               <MdContentCopy className='self-center text-2xl' />
             </div>
