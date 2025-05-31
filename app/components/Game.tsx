@@ -436,7 +436,7 @@ export default function Game() {
         <div className='flex justify-between w-full'>
           <div>
             <p style={NunitoFont.style} className='text-sm py-1 px-2 bg-stone-500 rounded-t-lg w-max text-stone-100'>
-              Comparte este link para buscar oponente:
+              Share this link to find oponent:
             </p>
             <div className='bg-stone-600 text-stone-50 p-4 rounded-b-lg rounded-tr-lg flex justify-between space-x-8 cursor-pointer w-max'>
               <p style={PoppinsFont.style} className=''>
