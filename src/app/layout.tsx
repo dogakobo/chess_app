@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import './global.css';
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,9 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script src="https://cdn.socket.io/4.8.1/socket.io.esm.min.js"></script>
+        <script async src="https://cdn.socket.io/4.8.1/socket.io.esm.min.js"></script>
       </head>
-      <body className={inter.className}>{children}</body>
+      <body style={inter.style} >{children}</body>
     </html>
   );
 }

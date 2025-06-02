@@ -5,11 +5,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import pieces from '../data/pieces_copy.json'
 import { checkPossibleMoves, findCheck, verifyCheckMate } from '../services/movements'
-import { socket } from "@/app/services/socket"
+import { socket } from "@/src/services/socket"
 import { useSearchParams } from 'next/navigation'
 import { MdTripOrigin, MdContentCopy } from "react-icons/md"
 import { Poppins } from 'next/font/google'
 import { usePathname, useRouter } from 'next/navigation'
+// import { useRouter } from 'next/router'
 // import { Suspense } from 'react'
 
 const PoppinsFont = Poppins({ weight: ['400', '500'], subsets: ['latin'] })
@@ -359,6 +360,10 @@ export default function Game() {
     movePiece(promotionPiece, selectPiece)
   }
 
+  // if (router.isFallback) {
+  //   return <div>Loading...</div>
+  // }
+
   return (
     <div className='flex absolute w-screen'>
 
@@ -422,7 +427,7 @@ export default function Game() {
                     </div>
                   ) 
                   }
-                  <p style={{ color: colorText}} className='absolute top-0 left-0 z-50 pl-1' onClick={() => setSquare(piece)}>.
+                  <p style={{ color: colorText}} className='absolute top-0 left-0 z-50 pl-1' onClick={() => setSquare(piece)}>
                     {piece.position}
                   </p>
                 </div>
